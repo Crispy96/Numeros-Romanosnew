@@ -108,8 +108,27 @@ class RomanNumber():
         if isinstance(other, str):
             return self.cadena == other
         raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
-        
-
-        
+#distinto de 
+    def __ne__(self, otrovalor):
+        if isinstance(other, RomanNumber):
+            return other.valor != self.valaor
+         if isinstance(other, int):
+            return self.valor != other
+        if isinstance (other, float):
+            return self.valor != other
+        if isinstance(other, str):
+            return self.cadena != other
+        raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
+#menor 
+    def __gt__(self, other):
+         if isinstance(other, RomanNumber):
+            return self.other.valor > other.valaor
+         if isinstance(other, int):
+            return self.valor > other
+        if isinstance (other, float):
+            return self.valor > other
+        if isinstance(other, str):
+            return self.cadena > other
+        raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
 
 
