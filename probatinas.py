@@ -1,4 +1,4 @@
-from romanos import *
+from romanos import a_romano, a_numero
 
-a_romano('casa')
+print(a_numero('IIII'))
 
