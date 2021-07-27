@@ -1,15 +1,15 @@
 class RomanNumber():
+#cadena
     simbolos = {
         'unidades': ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
         'decenas': ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
         'centenas': ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
         'millares': ['', 'M', 'MM', 'MMM']
     }
-
+#valor
     digitos_romanos = {
         'I': 1, 'V': 5, 'X': 10, 'L':50, 'C': 100, 'D': 500, 'M': 1000
     }
-
 
     def __init__(self, valor):
 
@@ -17,9 +17,12 @@ class RomanNumber():
             self.valor = valor
             self.cadena = self.a_romano()
 
-        if isinstance(valor, str):
+        elif isinstance(valor, str):
             self.cadena = valor
             self.valor = self.a_numero()
+        else:
+            raise ValueError("Sólo se admiten int y cadenas")
+        
 
     def validar(self):
         if not isinstance(self.valor, int):
@@ -28,18 +31,17 @@ class RomanNumber():
         if self.valor < 0 or self.valor > 3999:
             raise ValueError("{} debe estar entre 0 y 3999".format(self.valor))
 
-
     def a_romano(self):
         self.validar()
         c = "{:04d}".format(self.valor)
-    
+        
         unidades = int(c[-1])
         decenas = int(c[-2])
         centenas = int(c[-3])
         millares = int(c[-4])
 
-        return self.simbolos['millares'][millares] + self.simbolos['centenas'][centenas] \
-            + self.simbolos['decenas'][decenas] + self.simbolos['unidades'][unidades]
+        return self.simbolos['millares'][millares] + self.simbolos['centenas'][centenas] + \
+            self.simbolos['decenas'][decenas] + self.simbolos['unidades'][unidades]
 
     def a_numero(self):
         acumulador = 0
@@ -88,47 +90,100 @@ class RomanNumber():
         
         return acumulador
 
+
     def __str__(self):
         return self.cadena
-    
+
     def __repr__(self):
         return self.__str__()
 
     def __len__(self):
         return len(self.cadena)
-#me sumas a mi con otro
-    def __add__(self, other):
-        return RomanNumber(self.valor + other.valor)
+#si este metodo no existe si le ponemos que mil es igual a L buscará en cadena y como no tiene
+    def __eq__(self, otrovalor):
+        if isinstance(otrovalor, RomanNumber):
+            return self.valor == otrovalor.valor
+        if isinstance(otrovalor, int):
+            return self.valor == otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor == otrovalor
+        if isinstance(otrovalor, str):
+            return self.cadena == otrovalor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
 
-    def __eq__(self, other):
-        if isinstance(other, int):
-            return self.valor == other
-        if isinstance (other, float):
-            return self.valor == other
-        if isinstance(other, str):
-            return self.cadena == other
-        raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
-#distinto de 
     def __ne__(self, otrovalor):
-        if isinstance(other, RomanNumber):
-            return other.valor != self.valaor
-         if isinstance(other, int):
-            return self.valor != other
-        if isinstance (other, float):
-            return self.valor != other
-        if isinstance(other, str):
-            return self.cadena != other
-        raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
-#menor 
-    def __gt__(self, other):
-         if isinstance(other, RomanNumber):
-            return self.other.valor > other.valaor
-         if isinstance(other, int):
-            return self.valor > other
-        if isinstance (other, float):
-            return self.valor > other
-        if isinstance(other, str):
-            return self.cadena > other
-        raise ValueError("{} solo puede ser enterno, cada, flotante o RomanNumber".format(other))
+        if isinstance(otrovalor, RomanNumber):
+            return otrovalor.valor != self.valor
+        if isinstance(otrovalor, int):
+            return self.valor != otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor != otrovalor
+        if isinstance(otrovalor, str):
+            return self.cadena != otrovalor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
+
+    def __gt__(self, otrovalor):
+        if isinstance(otrovalor, RomanNumber):
+            return self.valor > otrovalor.valor
+        if isinstance(otrovalor, int):
+            return self.valor > otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor > otrovalor
+        if isinstance(otrovalor, str):
+            return self.valor > RomanNumber(otrovalor).valor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
 
 
+    def __ge__(self, otrovalor):
+        if isinstance(otrovalor, RomanNumber):
+            return self.valor >= otrovalor.valor
+        if isinstance(otrovalor, int):
+            return self.valor >= otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor >= otrovalor
+        if isinstance(otrovalor, str):
+            return self.valor >= RomanNumber(otrovalor).valor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
+
+    def __lt__(self, otrovalor):
+        if isinstance(otrovalor, RomanNumber):
+            return self.valor < otrovalor.valor
+        if isinstance(otrovalor, int):
+            return self.valor < otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor < otrovalor
+        if isinstance(otrovalor, str):
+            return self.valor < RomanNumber(otrovalor).valor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
+
+    def __le__(self, otrovalor):
+        if isinstance(otrovalor, RomanNumber):
+            return self.valor <= otrovalor.valor
+        if isinstance(otrovalor, int):
+            return self.valor <= otrovalor
+        if isinstance(otrovalor, float):
+            return self.valor <= otrovalor
+        if isinstance(otrovalor, str):
+            return self.valor <= RomanNumber(otrovalor).valor
+        raise ValueError("{} solo puede ser entero, cadena, flotante o RomanNumber".format(otrovalor))
+
+    def __add__(self, otroValor):
+        if isinstance(otroValor, RomanNumber):
+            return RomanNumber(otroValor.valor + self.valor)
+
+        if isinstance(otroValor, int):
+            return RomanNumber(otroValor + self.valor)
+
+        if isinstance(otroValor, float):
+            raise ValueError("{} solo puede ser entero, cadena o RomanNumber".format(otroValor))
+
+        if isinstance(otroValor, str):
+            otroNumero = RomanNumber(otroValor)
+            return RomanNumber(self.valor + otroNumero.valor)
+
+#suma invertida
+    def __radd__(self, otrovalor):
+        return self.__add__(otrovalor)
+    
+    def __iadd__(self, otrovalor):
+        return self.__add__(otrovalor)
